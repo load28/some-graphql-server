@@ -1,0 +1,11 @@
+[package]
+name = "some-graphql-server"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+actix-web = "4.9.0"
+async-graphql = "7.0.7"
+async-graphql-actix-web = "7.0.7"
+serde = { version = "1.0.209", features = ["derive"] }
+
