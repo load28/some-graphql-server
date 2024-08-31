@@ -16,6 +16,14 @@ async fn graphql_playground() -> HttpResponse {
         .body(playground_source(GraphQLPlaygroundConfig::new("/")))
 }
 
+/*
+Todo list
+1. 게시물 인터페이스 생성
+2. 유저 추가/수정/삭제 뮤테이션 추가
+3. 게시물 추가/삭제/수정 뮤테이션 추가
+4. 아마존 R디비 연동
+ */
+
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     HttpServer::new(move || {
