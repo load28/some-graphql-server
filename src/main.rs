@@ -1,40 +1,14 @@
+mod query;
+
+use crate::query::RootQuery;
 use actix_web::{
     guard,
     web::{self},
     App, HttpResponse, HttpServer,
 };
 use async_graphql::http::{playground_source, GraphQLPlaygroundConfig};
-use async_graphql::{EmptySubscription, FieldResult, Object, Schema, SimpleObject};
+use async_graphql::{EmptyMutation, EmptySubscription, Schema};
 use async_graphql_actix_web::GraphQL;
-use serde::{Deserialize, Serialize};
-#[derive(Debug, Clone, Serialize, Deserialize, SimpleObject)]
-struct Owner {
-    pub id: String,
-    pub name: String,
-}
-struct Query;
-
-#[Object]
-impl Query {
-    async fn get_data(&self) -> FieldResult<Owner> {
-        Ok(Owner {
-            id: String::from("hi"),
-            name: String::from("hi"),
-        })
-    }
-}
-
-struct Mutation;
-
-#[Object]
-impl Mutation {
-    async fn create_data(&self) -> FieldResult<Owner> {
-        Ok(Owner {
-            id: String::from("hi"),
-            name: String::from("hi"),
-        })
-    }
-}
 
 async fn graphql_playground() -> HttpResponse {
     HttpResponse::Ok()
@@ -45,7 +19,7 @@ async fn graphql_playground() -> HttpResponse {
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     HttpServer::new(move || {
-        let schema = Schema::build(Query, Mutation, EmptySubscription).finish();
+        let schema = Schema::build(RootQuery::default(), EmptyMutation, EmptySubscription).finish();
 
         App::new()
             .service(
